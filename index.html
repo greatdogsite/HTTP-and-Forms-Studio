@@ -3,17 +3,63 @@
 <head>
 	<meta charset="utf-8">
 	<script>
-		// TODO: create a handler
-    window.addEventListener("load", function(){
-        // TODO: register the handler
-    });
+		function setSearchEngine() {
+			let actions = {
+				"google": "https://www.google.com/",
+				"duckDuckGo": "https://duckduckgo.com/",
+				"bing": "https://www.bing.com/search",
+				"ask": "https://www.ask.com/web"
+			}
+			let radioInput = document.querySelector("input[name=engine]:checked");
+			// console.log(radioInput.value);
+			// console.log(actions[radioInput.value]);
+			return actions[radioInput.value];
+
+			//console.log(actions[String(radioInput.value)]);
+			// let radioInput = document.getElementsByName("engine");
+			// for (let i in radioInput) {
+			// 	if (radioInput[i].checked) {
+			// 		console.log(radioInput[i].value);
+			// 	}
+			// }
+		};
+
+		function validation(question) {
+			if (question.value !== "") {
+				return true;
+			}
+			return false;
+		}
+
+		window.addEventListener("load", function () {
+			let searchForm = document.querySelector("#searchForm");
+			let question = document.querySelector("#question");
+			searchForm.addEventListener("submit", function () {
+				let valid = validation(question);
+				let searchEngine = setSearchEngine();
+				if (valid) {
+					searchForm.action = searchEngine;
+					searchForm.setAttribute("action", searchEngine);
+				}
+				else {
+					question.placeholder = "Really, Try Something!";
+					event.preventDefault();
+				}
+			});
+
+		});
 	</script>
 </head>
 
 <body>
 
 	<form id="searchForm">
-    <!-- TODO: add form elements -->
+		<input type="text" name="q" id="question" value="" placeholder="Try Me"/>
+		<label><input type="radio" name="engine" value="google" checked="checked" />Google</label>
+		<label><input type="radio" name="engine" value="duckDuckGo" />DuckDuckGo</label>
+		<label><input type="radio" name="engine" value="bing" />Bing</label>
+		<label><input type="radio" name="engine" value="ask" />Who Uses Ask?</label>
+		<button type="sumbit">Go!</button>
 	</form>
 
 </body>
